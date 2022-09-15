@@ -1,9 +1,10 @@
 import { StatusBar } from "expo-status-bar";
-import { FlatList, StyleSheet, Text, View } from "react-native";
+import { StyleSheet, Text, View } from "react-native";
 import { useState } from "react";
+import { useFonts } from 'expo-font';
 
 // app data
-import categories from "./data/categories"
+import categories from "./data/categories";
 
 // components
 import Title from "./component/Title";
@@ -13,71 +14,78 @@ import HabitList from "./component/HabitList";
 import AddHabits from "./component/AddHabits";
 
 export default function App() {
+  const [showModal, setShowModal] = useState(false);
 
-  const [showModal, setShowModal] = useState(false)
-
-  const [addHabit, setAddHabit] = useState(false)
+  const [showAddHabit, setShowAddHabit] = useState(false);
 
   const [modalData, setModalData] = useState();
 
-  const [list, setList] = useState([
-    {
-      id: Math.random(),
-      name: "Hello",
-    },
-    {
-      id: Math.random(),
-      name: "Hello",
-    },
-  ]);
+  const [list, setList] = useState([]);
 
+   const [fontsLoaded] = useFonts({
+     "Popping-Regular": require("./assets/fonts/Poppins/Poppins-Regular.ttf"),
+     "Popping-Bold": require("./assets/fonts/Poppins/Poppins-Bold.ttf"),
+   });
+   
+
+  function addHabit(habbit) {
+    setList((curr) => [...curr, habbit]);
+    setShowAddHabit(false);
+  }
 
   function showList(habit) {
-    setShowModal(true)
+    setShowModal(true);
 
     setModalData({
       name: habit,
-    })
+      list: list.filter((d) => d.category === habit),
+    });
   }
 
   function closeModal() {
-     setShowModal(false);
+    setShowModal(false);
   }
 
-
-  return (
-    <>
-      <StatusBar style="dark" />
-      <View style={styles.container}>
-        <View style={{ marginBottom: 30 }}>
-          <Title text="Choose habit" />
-          <Text style={styles.appText}>
-            Choose your daily habits, you can choose more than one
-          </Text>
+  if (!fontsLoaded){
+    return <Text>Loading</Text>
+  }
+    return (
+      <>
+        <StatusBar style="dark" />
+        <View style={styles.container}>
+          <View style={{ marginBottom: 30 }}>
+            <Title text="Choose habit" />
+            <Text style={styles.appText}>
+              Choose a habit category to see your habits list or add habit
+            </Text>
+          </View>
+          <View style={styles.categoriesContainer}>
+            {categories.map((d, i) => (
+              <HabitCategory
+                key={i}
+                title={d.name}
+                image={d.icon}
+                onTap={showList}
+              />
+            ))}
+          </View>
+          <View>
+            <Button title="Add habit" onTap={() => setShowAddHabit(true)} />
+          </View>
+          <HabitList
+            data={modalData?.list}
+            title={modalData?.name}
+            show={showModal}
+            onTap={closeModal}
+          />
+          <AddHabits
+            componentStyles={styles.container}
+            show={showAddHabit}
+            onTap={addHabit}
+          />
         </View>
-        <View style={styles.categoriesContainer}>
-          {categories.map((d, i) => (
-            <HabitCategory
-              key={i}
-              title={d.name}
-              image={d.icon}
-              onTap={showList}
-            />
-          ))}
-        </View>
-        <View>
-          <Button title="Add habit" onTap={() => setAddHabit(true)} />
-        </View>
-        <HabitList
-          data={list}
-          title={modalData?.name}
-          show={showModal}
-          onTap={closeModal}
-        />
-        <AddHabits componentStyles={styles.container} show={addHabit} onTap={() => setAddHabit(false)}/>
-      </View>
-    </>
-  );
+      </>
+    );
 }
 
 const styles = StyleSheet.create({
@@ -90,6 +98,7 @@ const styles = StyleSheet.create({
 
   appText: {
     color: "#ccc",
+    fontFamily: "Popping-Regular",
   },
 
   categoriesContainer: {

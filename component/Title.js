@@ -9,8 +9,8 @@ export default function Title({ text }) {
 const styles = StyleSheet.create({
   appTitle: {
     fontSize: 30,
-    fontWeight: "bold",
-    marginBottom: 10,
+    fontFamily:"Popping-Bold",
+    marginBottom: 5,
   },
 });
 

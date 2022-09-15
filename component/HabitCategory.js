@@ -6,7 +6,7 @@ export default function HabitCategory({ title, image, onTap }) {
     <View style={styles.habitCategory}>
       <Pressable style={styles.container} onPress={() => onTap(title)}>
         <Text style={styles.image}>{image}</Text>
-        <Text>{title}</Text>
+        <Text style={{ fontFamily: "Popping-Regular" }}>{title}</Text>
       </Pressable>
     </View>
   );

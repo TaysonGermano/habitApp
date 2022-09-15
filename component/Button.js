@@ -27,6 +27,7 @@ const styles = StyleSheet.create({
   textStyles: {
     color: "white",
     fontSize: 16,
-    textTransform:"uppercase",
+    fontFamily: "Popping-Regular",
+    textTransform: "uppercase",
   },
 });
