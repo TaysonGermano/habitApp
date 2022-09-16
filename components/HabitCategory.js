@@ -2,6 +2,7 @@ import React from "react";
 import { Pressable, View, Text, StyleSheet } from "react-native";
 
 export default function HabitCategory({ title, image, onTap }) {
+
   return (
     <View style={styles.habitCategory}>
       <Pressable style={styles.container} onPress={() => onTap(title)}>
