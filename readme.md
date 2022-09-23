@@ -2,7 +2,7 @@
 
 A simple React Native App in which users can add a list of habits to related category
 
-## Screenshoot 
+## Screenshot 
 
 ![Untitled](https://user-images.githubusercontent.com/29797099/191047544-c1f5bde8-8041-41a4-a072-9325dc61cce6.png)
 
